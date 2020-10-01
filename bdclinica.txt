@@ -1,0 +1,56 @@
+CREATE TABLE Ambulatorios 
+(
+	nroa int PRIMARY KEY AUTO_INCREMENT,
+    andar numeric(3) NOT Null,
+    capacidade SMALLINT
+);
+
+CREATE TABLE Medicos
+( 
+	codm int PRIMARY KEY AUTO_INCREMENT,
+    nome varchar(40) not null,
+    idade SMALLINT not null,
+    especialidade char(20),
+    cpf numeric(11) UNIQUE,
+    cidade varchar(30),
+	nroa int,
+    FOREIGN KEY(nroa) REFERENCES Ambulatorios(nroa)
+);
+
+
+CREATE TABLE Pacientes (
+CODP INT PRIMARY KEY AUTO_INCREMENT,
+NOME VARCHAR(40) NOT NULL, 
+IDADE SMALLINT NOT NULL, 
+CIDADE CHAR(30),
+CPF numeric(11) UNIQUE,
+DOENCA varchar(40) NOT NULL
+);
+
+create table Funcionarios 
+(
+codf int primary key auto_increment,
+nome varchar(40) not null, 
+idade smallint,
+CPF numeric(11) unique,
+cidade varchar(30),
+salario numeric(10),
+cargo varchar(20)
+);
+
+
+CREATE TABLE Consulta(
+    data DATE,
+    hora TIME,
+ codm int,
+ codp int,
+    CONSTRAINT FK_MEDICO FOREIGN KEY (codm) REFERENCES Medicos (codm),
+    CONSTRAINT FK_PACIENTE FOREIGN KEY (codp) REFERENCES Pacientes (codp),
+    CONSTRAINT PK_MDH PRIMARY KEY(codm, data, hora)
+);
+
+ALTER TABLE Funcionarios add COLUMN nroa int;
+ALTER TABLE Funcionarios add FOREIGN KEY(nroa) REFERENCES Ambulatorios(nroa);
+
+create UNIQUE INDEX INDEX_CPF on medicos(cpf);
+create INDEX INDEX_doenca on pacientes(doenca);
